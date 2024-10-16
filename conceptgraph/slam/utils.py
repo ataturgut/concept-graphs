@@ -19,7 +19,7 @@ import torch.nn.functional as F
 import faiss
 import uuid
 
-from conceptgraph.slam.slam_classes import MapEdgeMapping, MapObjectList, DetectionList, to_tensor
+from conceptgraph.slam.slam_classes import MapEdgeMapping, MapObjectList, DetectionList, to_tensor, to_numpy
 
 from conceptgraph.utils.ious import compute_3d_iou, compute_3d_iou_accurate_batch, compute_iou_batch
 
@@ -893,10 +893,19 @@ def filter_gobs(
 
 
 def resize_gobs(gobs, image):
+    # Check if 'mask' exists and is not None
+    if gobs.get('mask') is None:
+        print("Warning: gobs['mask'] is None or missing. Skipping resizing.")
+        return gobs  # Or handle it appropriately
+
+    # Now safe to access shape
+    if gobs['mask'].shape[1:] == image.shape[:2]:
+        # Proceed with resizing or other logic
+        return gobs  # Your existing resizing logic here
 
     # If the shapes are the same, no resizing is necessary
-    if gobs['mask'].shape[1:] == image.shape[:2]:
-        return gobs
+    # if gobs['mask'].shape[1:] == image.shape[:2]:
+    #     return gobs
 
     new_masks = []
 

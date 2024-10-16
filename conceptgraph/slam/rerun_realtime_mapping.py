@@ -106,7 +106,7 @@ torch.set_grad_enabled(False)
 # @profile
 def main(cfg : DictConfig):
     tracker = MappingTracker()
-    
+    # breakpoint()
     orr = OptionalReRun()
     orr.set_use_rerun(cfg.use_rerun)
     orr.init("realtime_mapping")
@@ -313,8 +313,12 @@ def main(cfg : DictConfig):
                 save_detection_results(det_exp_pkl_path / vis_save_path.stem, results)
         else:
             # Support current and old saving formats
+            # breakpoint()
             if os.path.exists(det_exp_pkl_path / color_path.stem):
                 raw_gobs = load_saved_detections(det_exp_pkl_path / color_path.stem)
+            # stem = color_path.stem
+            # if stem.startswith("frame"):
+            #     stem = stem.replace("frame", "")  # Remove 'frame' prefix
             elif os.path.exists(det_exp_pkl_path / f"{int(color_path.stem):06}"):
                 raw_gobs = load_saved_detections(det_exp_pkl_path / f"{int(color_path.stem):06}")
             else:

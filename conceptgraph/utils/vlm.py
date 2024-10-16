@@ -103,7 +103,9 @@ system_prompt = system_prompt_only_top
 gpt_model = "gpt-4o-2024-05-13"
 
 def get_openai_client():
+    # https://ollama.com/blog/openai-compatibility
     client = OpenAI(
+        base_url='http://localhost:11434/v1',
         api_key=os.getenv('OPENAI_API_KEY')
     )
     return client
